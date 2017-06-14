@@ -10,6 +10,16 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+
+        File secretsExists = new File("secrets.properties")
+        if (secretsExists.exists()) {
+            def secretsFile = rootProject.file('secrets.properties')
+            def secrets = new Properties()
+            secrets.load(new FileInputStream(secretsFile))
+            buildConfigField "String", "THEMOVIEDB_KEY", secrets.getProperty('THEMOVIEDB_KEY')
+            buildConfigField "String", "THEMOVIEDB_API", secrets.getProperty('THEMOVIEDB_API')
+        }
     }
     buildTypes {
         release {
@@ -17,6 +27,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    dataBinding.enabled true
 }
 
 dependencies {
@@ -25,10 +36,11 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     compile 'com.android.support:appcompat-v7:25.3.1'
+    compile 'com.android.support:design:25.3.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.google.code.gson:gson:2.7'
-
+    compile 'com.github.nitrico.lastadapter:lastadapter:2.2.2'
     compile 'com.squareup.okhttp3:logging-interceptor:3.8.0'
     compile 'com.squareup.retrofit2:retrofit:2.3.0'
     compile 'com.squareup.retrofit2:converter-gson:2.3.0'
