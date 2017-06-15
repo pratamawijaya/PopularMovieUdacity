@@ -26,7 +26,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:text="Something Wrong!"
+                android:text="@string/error_message"
                 android:visibility="gone" />
         </RelativeLayout>
 

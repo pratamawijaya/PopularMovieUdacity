@@ -17,13 +17,14 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
             <ImageView
                 android:id="@+id/img_backdrop"
                 android:layout_width="match_parent"
                 android:layout_height="260dp"
                 android:adjustViewBounds="true"
+                android:contentDescription="@string/img_desc_backdrop"
                 android:scaleType="fitXY"
                 app:backdropURL="@{movie.backdrop_path}" />
 
@@ -32,7 +33,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/img_backdrop"
-                android:layout_marginLeft="16dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
                 android:fontFamily="sans-serif-medium"
                 android:text="@{movie.getFormattedDate()}"
@@ -42,13 +43,15 @@
                 android:id="@+id/tv_rating"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:layout_below="@id/img_backdrop"
-                android:layout_marginRight="16dp"
+                android:layout_marginEnd="16dp"
                 android:layout_marginTop="8dp"
+                android:layout_toEndOf="@id/tv_release_date"
                 android:layout_toRightOf="@id/tv_release_date"
                 android:fontFamily="sans-serif-medium"
-                android:gravity="right"
+                android:gravity="right|end"
                 android:text="@{String.valueOf(movie.vote_average)}"
                 tools:text="Rating" />
 

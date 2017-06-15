@@ -4,6 +4,7 @@ import org.parceler.Parcel;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * Created by pratama
@@ -24,7 +25,7 @@ public class Movie {
     private float vote_average;
 
     public String getFormattedDate() {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("d MMM yyy");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("d MMM yyy", Locale.getDefault());
         return dateFormat.format(release_date);
     }
 
