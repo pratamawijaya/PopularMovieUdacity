@@ -56,4 +56,8 @@ public class MainPresenter {
     public void detachView() {
         compositeDisposable.dispose();
     }
+
+    public void attachView() {
+        compositeDisposable = new CompositeDisposable();
+    }
 }

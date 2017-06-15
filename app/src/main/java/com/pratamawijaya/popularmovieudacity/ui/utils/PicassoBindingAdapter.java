@@ -3,6 +3,7 @@ package com.pratamawijaya.popularmovieudacity.ui.utils;
 import android.databinding.BindingAdapter;
 import android.widget.ImageView;
 
+import com.pratamawijaya.popularmovieudacity.R;
 import com.squareup.picasso.Picasso;
 
 /**
@@ -17,6 +18,8 @@ public class PicassoBindingAdapter {
         final String finalUrl = "http://image.tmdb.org/t/p/w342/" + imageUrl;
         Picasso.with(view.getContext())
                 .load(finalUrl)
+                .placeholder(R.drawable.ic_error_outline_grey_900_48dp)
+                .error(R.drawable.ic_error_outline_grey_900_48dp)
                 .into(view);
     }
 
@@ -25,6 +28,8 @@ public class PicassoBindingAdapter {
         final String finalUrl = "http://image.tmdb.org/t/p/w780" + imageUrl;
         Picasso.with(view.getContext())
                 .load(finalUrl)
+                .placeholder(R.drawable.ic_error_outline_grey_900_48dp)
+                .error(R.drawable.ic_error_outline_grey_900_48dp)
                 .into(view);
     }
 }

@@ -134,6 +134,12 @@ public class MainActivity extends AppCompatActivity implements MainView, SwipeRe
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        presenter.attachView();
+    }
+
+    @Override
     protected void onStop() {
         super.onStop();
         presenter.detachView();
