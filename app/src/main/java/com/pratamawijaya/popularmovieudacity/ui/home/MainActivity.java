@@ -1,12 +1,16 @@
 package com.pratamawijaya.popularmovieudacity.ui.home;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -31,13 +35,13 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements MainView, SwipeRefreshLayout.OnRefreshListener {
 
     private static final String TAG = MainActivity.class.getSimpleName();
-
+    public static final int POPULAR = 0;
+    public static final int TOP_RATED = 1;
 
     private SwipeRefreshLayout refreshLayout;
     private RecyclerView recyclerView;
     private TextView errorText;
     private ProgressBar loading;
-
 
     private MovieRepository movieRepository;
     private TheMovieDbServices movieDbServices;
@@ -60,7 +64,7 @@ public class MainActivity extends AppCompatActivity implements MainView, SwipeRe
         presenter = new MainPresenter(movieRepository, this);
 
         // get movie data
-        presenter.getMovie();
+        presenter.getMovie(POPULAR);
 
     }
 
@@ -76,7 +80,6 @@ public class MainActivity extends AppCompatActivity implements MainView, SwipeRe
 
     @Override
     public void showLoading(boolean show) {
-
         errorText.setVisibility(View.GONE);
 
         if (show) {
@@ -91,7 +94,6 @@ public class MainActivity extends AppCompatActivity implements MainView, SwipeRe
 
     @Override
     public void displayMovies(List<Movie> results) {
-
         new LastAdapter(results, BR.movie)
                 .map(Movie.class, new ItemType<ItemMovieBinding>(R.layout.item_movie) {
                     @Override
@@ -132,6 +134,39 @@ public class MainActivity extends AppCompatActivity implements MainView, SwipeRe
     @Override
     public void onRefresh() {
         refreshLayout.setRefreshing(false);
-        presenter.getMovie();
+        presenter.getMovie(POPULAR);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_home, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_sort:
+                showSortMovieMenu();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void showSortMovieMenu() {
+        final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this)
+                .setTitle("Sort Movie")
+                .setItems(R.array.sort_movie, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (which == POPULAR) {
+                            presenter.getMovie(POPULAR);
+                        } else {
+                            presenter.getMovie(TOP_RATED);
+                        }
+                    }
+                });
+        dialogBuilder.create();
+        dialogBuilder.show();
     }
 }

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="movie"
+            type="com.pratamawijaya.popularmovieudacity.data.model.Movie" />
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/img_backdrop"
+                android:layout_width="400dp"
+                android:layout_height="260dp"
+                android:layout_centerHorizontal="true"
+                android:adjustViewBounds="true"
+                android:contentDescription="@string/img_desc_backdrop"
+                android:scaleType="fitXY"
+                app:backdropURL="@{movie.backdrop_path}" />
+
+            <RelativeLayout
+                android:layout_width="400dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/img_backdrop"
+                android:layout_centerHorizontal="true">
+
+                <TextView
+                    android:id="@+id/tv_release_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:fontFamily="sans-serif-medium"
+                    android:text="@{movie.getFormattedDate()}"
+                    tools:text="Release Date : " />
+
+                <TextView
+                    android:id="@+id/tv_rating"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginTop="8dp"
+                    android:drawableLeft="@drawable/ic_star_yellow_900_24dp"
+                    android:drawablePadding="8dp"
+                    android:fontFamily="sans-serif-medium"
+                    android:gravity="right|end|center_vertical"
+                    android:text="@{String.valueOf(movie.vote_average)}"
+                    tools:text="Rating" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tv_release_date"
+                    android:layout_margin="16dp"
+                    android:text="@{movie.overview}"
+                    android:textSize="18sp"
+                    tools:text="Overview" />
+
+            </RelativeLayout>
+
+
+        </RelativeLayout>
+    </ScrollView>
+
+</layout>

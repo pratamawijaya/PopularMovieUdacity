@@ -48,10 +48,10 @@
                 android:layout_below="@id/img_backdrop"
                 android:layout_marginEnd="16dp"
                 android:layout_marginTop="8dp"
-                android:layout_toEndOf="@id/tv_release_date"
-                android:layout_toRightOf="@id/tv_release_date"
+                android:drawableLeft="@drawable/ic_star_yellow_900_24dp"
+                android:drawablePadding="8dp"
                 android:fontFamily="sans-serif-medium"
-                android:gravity="right|end"
+                android:gravity="right|end|center_vertical"
                 android:text="@{String.valueOf(movie.vote_average)}"
                 tools:text="Rating" />
 
@@ -61,6 +61,7 @@
                 android:layout_below="@id/tv_release_date"
                 android:layout_margin="16dp"
                 android:text="@{movie.overview}"
+                android:textSize="18sp"
                 tools:text="Overview" />
 
         </RelativeLayout>

@@ -25,10 +25,18 @@ public class MainPresenter {
         this.view = view;
     }
 
-    public void getMovie() {
+    public void getMovie(int sort) {
         view.showLoading(true);
 
-        movieRepository.getPopularMovie().enqueue(new Callback<MovieResponse>() {
+        Call<MovieResponse> callMovie;
+
+        if (sort == MainActivity.POPULAR) {
+            callMovie = movieRepository.getPopularMovie();
+        } else {
+            callMovie = movieRepository.getTopRatedMovie();
+        }
+
+        callMovie.enqueue(new Callback<MovieResponse>() {
             @Override
             public void onResponse(Call<MovieResponse> call, Response<MovieResponse> response) {
                 view.showLoading(false);

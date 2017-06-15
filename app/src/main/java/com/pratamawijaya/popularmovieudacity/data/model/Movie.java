@@ -26,7 +26,7 @@ public class Movie {
 
     public String getFormattedDate() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("d MMM yyy", Locale.getDefault());
-        return dateFormat.format(release_date);
+        return "Release date : " + dateFormat.format(release_date);
     }
 
     public int getId() {
