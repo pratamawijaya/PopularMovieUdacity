@@ -74,7 +74,8 @@ public class MainActivity extends AppCompatActivity implements MainView, SwipeRe
         refreshLayout = (SwipeRefreshLayout) findViewById(R.id.content);
         recyclerView = (RecyclerView) findViewById(R.id.rv_list_movies);
 
-        recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
+        final int columnCount = getResources().getInteger(R.integer.grid_count);
+        recyclerView.setLayoutManager(new GridLayoutManager(this, columnCount));
         refreshLayout.setOnRefreshListener(this);
     }
 
