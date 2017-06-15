@@ -2,8 +2,10 @@
 
     <style name="Theme.PopularMovie" parent="Base.Theme.PopularMovie">
         <item name="android:statusBarColor">@color/colorPrimaryDark</item>
-        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
     </style>
 
+    <style name="Theme.PopularMovieTranslucent" parent="Base.Theme.PopularMovieTranslucent">
+        <item name="android:statusBarColor">@android:color/transparent</item>
+    </style>
 
 </resources>

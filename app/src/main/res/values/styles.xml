@@ -2,6 +2,10 @@
 
     <style name="Theme.PopularMovie" parent="Base.Theme.PopularMovie" />
 
+    <style name="Theme.PopularMovieTranslucent" parent="Base.Theme.PopularMovieTranslucent" />
+
+    <style name="Base.Theme.PopularMovieTranslucent" parent="Base.Theme.PopularMovie"></style>
+
     <!-- Base application theme. -->
     <style name="Base.Theme.PopularMovie" parent="Theme.AppCompat.NoActionBar">
         <!-- Customize your theme here. -->

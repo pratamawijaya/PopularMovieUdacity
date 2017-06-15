@@ -18,7 +18,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.detailmovie.DetailMovieActivity"></activity>
+        <activity
+            android:name=".ui.detailmovie.DetailMovieActivity"
+            android:theme="@style/Theme.PopularMovieTranslucent" />
     </application>
 
 </manifest>
