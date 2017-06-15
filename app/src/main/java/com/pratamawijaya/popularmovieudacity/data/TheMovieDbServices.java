@@ -3,10 +3,11 @@ package com.pratamawijaya.popularmovieudacity.data;
 import com.pratamawijaya.popularmovieudacity.BuildConfig;
 import com.pratamawijaya.popularmovieudacity.data.model.MovieResponse;
 
+import io.reactivex.Observable;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
-import retrofit2.Call;
 import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;
 
@@ -19,10 +20,10 @@ import retrofit2.http.GET;
 public interface TheMovieDbServices {
 
     @GET("movie/popular")
-    Call<MovieResponse> getPopularMovie();
+    Observable<MovieResponse> getPopularMovie();
 
     @GET("movie/top_rated")
-    Call<MovieResponse> getTopRatedMovie();
+    Observable<MovieResponse> getTopRatedMovie();
 
     class Creator {
 
@@ -38,6 +39,7 @@ public interface TheMovieDbServices {
                     .build();
 
             final Retrofit retrofit = new Retrofit.Builder()
+                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                     .addConverterFactory(GsonConverterFactory.create())
                     .client(okHttpClient)
                     .baseUrl(BuildConfig.THEMOVIEDB_API)

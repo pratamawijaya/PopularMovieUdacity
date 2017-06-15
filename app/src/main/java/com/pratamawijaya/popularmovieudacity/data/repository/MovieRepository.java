@@ -1,8 +1,10 @@
 package com.pratamawijaya.popularmovieudacity.data.repository;
 
-import com.pratamawijaya.popularmovieudacity.data.model.MovieResponse;
+import com.pratamawijaya.popularmovieudacity.data.model.Movie;
 
-import retrofit2.Call;
+import java.util.List;
+
+import io.reactivex.Observable;
 
 /**
  * Created by pratama
@@ -11,7 +13,7 @@ import retrofit2.Call;
  */
 
 public interface MovieRepository {
-    Call<MovieResponse> getPopularMovie();
+    Observable<List<Movie>> getPopularMovie();
 
-    Call<MovieResponse> getTopRatedMovie();
+    Observable<List<Movie>> getTopRatedMovie();
 }

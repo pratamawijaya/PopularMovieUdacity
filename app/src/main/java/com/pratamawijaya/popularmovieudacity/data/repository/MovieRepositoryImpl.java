@@ -1,9 +1,11 @@
 package com.pratamawijaya.popularmovieudacity.data.repository;
 
 import com.pratamawijaya.popularmovieudacity.data.TheMovieDbServices;
-import com.pratamawijaya.popularmovieudacity.data.model.MovieResponse;
+import com.pratamawijaya.popularmovieudacity.data.model.Movie;
 
-import retrofit2.Call;
+import java.util.List;
+
+import io.reactivex.Observable;
 
 /**
  * Created by pratama
@@ -19,14 +21,13 @@ public class MovieRepositoryImpl implements MovieRepository {
         this.services = services;
     }
 
-
     @Override
-    public Call<MovieResponse> getPopularMovie() {
-        return services.getPopularMovie();
+    public Observable<List<Movie>> getPopularMovie() {
+        return services.getPopularMovie().flatMap(movieResponse -> Observable.just(movieResponse.results));
     }
 
     @Override
-    public Call<MovieResponse> getTopRatedMovie() {
-        return services.getTopRatedMovie();
+    public Observable<List<Movie>> getTopRatedMovie() {
+        return services.getTopRatedMovie().flatMap(movieResponse -> Observable.just(movieResponse.results));
     }
 }
