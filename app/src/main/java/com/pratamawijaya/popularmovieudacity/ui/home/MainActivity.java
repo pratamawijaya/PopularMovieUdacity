@@ -47,6 +47,7 @@ public class MainActivity extends AppCompatActivity implements MainView, SwipeRe
     private TheMovieDbServices movieDbServices;
 
     private MainPresenter presenter;
+    private int selectedSort = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,7 +83,6 @@ public class MainActivity extends AppCompatActivity implements MainView, SwipeRe
     @Override
     public void showLoading(boolean show) {
         errorText.setVisibility(View.GONE);
-
         if (show) {
             recyclerView.setVisibility(View.VISIBLE);
             loading.setVisibility(View.VISIBLE);
@@ -135,7 +135,7 @@ public class MainActivity extends AppCompatActivity implements MainView, SwipeRe
     @Override
     public void onRefresh() {
         refreshLayout.setRefreshing(false);
-        presenter.getMovie(POPULAR);
+        presenter.getMovie(selectedSort);
     }
 
     @Override
@@ -160,6 +160,7 @@ public class MainActivity extends AppCompatActivity implements MainView, SwipeRe
                 .setItems(R.array.sort_movie, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        selectedSort = which;
                         if (which == POPULAR) {
                             presenter.getMovie(POPULAR);
                         } else {
