@@ -18,7 +18,7 @@
             android:layout_height="match_parent"
             android:adjustViewBounds="true"
             android:scaleType="fitXY"
-            app:imageUrl="@{movie.poster_path}" />
+            app:posterURL="@{movie.poster_path}" />
 
     </RelativeLayout>
 </layout>

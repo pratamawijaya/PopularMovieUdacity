@@ -15,5 +15,5 @@ public interface MainView {
 
     void displayMovies(List<Movie> results);
 
-    void showError();
+    void showError(String message);
 }

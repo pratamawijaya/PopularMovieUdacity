@@ -43,7 +43,7 @@ public class MainPresenter {
                         }
                     }
                 } else {
-                    view.showError();
+                    view.showError(response.message());
                 }
 
             }
@@ -51,7 +51,7 @@ public class MainPresenter {
             @Override
             public void onFailure(Call<MovieResponse> call, Throwable t) {
                 view.showLoading(false);
-                view.showError();
+                view.showError(t.getLocalizedMessage());
                 Log.e(TAG, "onFailure: " + t.getLocalizedMessage());
             }
         });

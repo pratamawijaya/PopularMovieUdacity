@@ -1,5 +1,6 @@
 package com.pratamawijaya.popularmovieudacity.ui.home;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -9,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.nitrico.lastadapter.BR;
 import com.github.nitrico.lastadapter.Holder;
@@ -20,6 +22,9 @@ import com.pratamawijaya.popularmovieudacity.data.model.Movie;
 import com.pratamawijaya.popularmovieudacity.data.repository.MovieRepository;
 import com.pratamawijaya.popularmovieudacity.data.repository.MovieRepositoryImpl;
 import com.pratamawijaya.popularmovieudacity.databinding.ItemMovieBinding;
+import com.pratamawijaya.popularmovieudacity.ui.detailmovie.DetailMovieActivity;
+
+import org.parceler.Parcels;
 
 import java.util.List;
 
@@ -71,11 +76,14 @@ public class MainActivity extends AppCompatActivity implements MainView, SwipeRe
 
     @Override
     public void showLoading(boolean show) {
+
+        errorText.setVisibility(View.GONE);
+
         if (show) {
+            recyclerView.setVisibility(View.VISIBLE);
             loading.setVisibility(View.VISIBLE);
             refreshLayout.setVisibility(View.GONE);
         } else {
-            errorText.setVisibility(View.GONE);
             loading.setVisibility(View.GONE);
             refreshLayout.setVisibility(View.VISIBLE);
         }
@@ -92,7 +100,10 @@ public class MainActivity extends AppCompatActivity implements MainView, SwipeRe
                         holder.itemView.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                Log.d(TAG, "onClick: " + holder.getBinding().getMovie().title);
+                                Log.d(TAG, "onClick: " + holder.getBinding().getMovie().getTitle());
+                                Bundle data = new Bundle();
+                                data.putParcelable("movie", Parcels.wrap(holder.getBinding().getMovie()));
+                                startActivity(new Intent(MainActivity.this, DetailMovieActivity.class).putExtras(data));
                             }
                         });
                     }
@@ -101,9 +112,10 @@ public class MainActivity extends AppCompatActivity implements MainView, SwipeRe
     }
 
     @Override
-    public void showError() {
+    public void showError(String localizedMessage) {
+        Toast.makeText(MainActivity.this, localizedMessage, Toast.LENGTH_SHORT).show();
         errorText.setVisibility(View.VISIBLE);
-        refreshLayout.setVisibility(View.GONE);
+        recyclerView.setVisibility(View.GONE);
     }
 
     @Override
@@ -120,5 +132,6 @@ public class MainActivity extends AppCompatActivity implements MainView, SwipeRe
     @Override
     public void onRefresh() {
         refreshLayout.setRefreshing(false);
+        presenter.getMovie();
     }
 }
