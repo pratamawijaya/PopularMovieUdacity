@@ -21,55 +21,71 @@
 
             <ImageView
                 android:id="@+id/img_backdrop"
-                android:layout_width="400dp"
+                android:layout_width="match_parent"
                 android:layout_height="260dp"
-                android:layout_centerHorizontal="true"
                 android:adjustViewBounds="true"
                 android:contentDescription="@string/img_desc_backdrop"
-                android:scaleType="fitXY"
+                android:cropToPadding="true"
+                android:scaleType="centerCrop"
                 app:backdropURL="@{movie.backdrop_path}" />
 
-            <RelativeLayout
-                android:layout_width="400dp"
+            <ImageView
+                android:id="@+id/poster"
+                android:layout_width="100dp"
+                android:layout_height="150dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="172dp"
+                android:contentDescription="@string/img_desc_poster_movie"
+                app:posterURL="@{movie.poster_path}"
+                tools:src="@mipmap/ic_launcher" />
+
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/img_backdrop"
-                android:layout_centerHorizontal="true">
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_toRightOf="@id/poster"
+                android:fontFamily="sans-serif-medium"
+                android:text="@{movie.title}"
+                android:textSize="18sp"
+                tools:text="title" />
 
-                <TextView
-                    android:id="@+id/tv_release_date"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="8dp"
-                    android:fontFamily="sans-serif-medium"
-                    android:text="@{movie.getFormattedDate()}"
-                    tools:text="Release Date : " />
+            <TextView
+                android:id="@+id/tv_release_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_title"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_toRightOf="@id/poster"
+                android:text="@{movie.getFormattedDate()}"
+                tools:text="Release Date : " />
 
-                <TextView
-                    android:id="@+id/tv_rating"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginTop="8dp"
-                    android:drawableLeft="@drawable/ic_star_yellow_900_24dp"
-                    android:drawablePadding="8dp"
-                    android:fontFamily="sans-serif-medium"
-                    android:gravity="right|end|center_vertical"
-                    android:text="@{String.valueOf(movie.vote_average)}"
-                    tools:text="Rating" />
+            <TextView
+                android:id="@+id/tv_rating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_release_date"
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_toRightOf="@id/poster"
+                android:drawableLeft="@drawable/ic_star_yellow_900_24dp"
+                android:drawablePadding="8dp"
+                android:gravity="right|end|center_vertical"
+                android:text="@{String.valueOf(movie.vote_average)}"
+                tools:text="Rating" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/tv_release_date"
-                    android:layout_margin="16dp"
-                    android:text="@{movie.overview}"
-                    android:textSize="18sp"
-                    tools:text="Overview" />
-
-            </RelativeLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_rating"
+                android:layout_margin="16dp"
+                android:text="@{movie.overview}"
+                tools:text="Overview" />
 
 
         </RelativeLayout>

@@ -4,4 +4,5 @@
     <string name="img_desc_backdrop">Image backdrop</string>
     <string name="img_desc_poster">Image description</string>
     <string name="menu_sort_movie">Sort movie</string>
+    <string name="img_desc_poster_movie">Image poster movie</string>
 </resources>
