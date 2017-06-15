@@ -35,7 +35,7 @@
                 android:layout_height="150dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="172dp"
+                android:layout_marginTop="232dp"
                 android:contentDescription="@string/img_desc_poster_movie"
                 app:posterURL="@{movie.poster_path}"
                 tools:src="@mipmap/ic_launcher" />
@@ -82,7 +82,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/tv_rating"
+                android:layout_below="@id/poster"
                 android:layout_margin="16dp"
                 android:text="@{movie.overview}"
                 tools:text="Overview" />
