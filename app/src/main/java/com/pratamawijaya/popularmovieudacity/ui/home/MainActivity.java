@@ -1,10 +1,8 @@
 package com.pratamawijaya.popularmovieudacity.ui.home;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -147,28 +145,15 @@ public class MainActivity extends AppCompatActivity implements MainView, SwipeRe
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.menu_sort:
-                showSortMovieMenu();
+            case R.id.menu_sort_popular:
+                selectedSort = POPULAR;
+                presenter.getMovie(POPULAR);
+                break;
+            case R.id.menu_sort_toprated:
+                selectedSort = TOP_RATED;
+                presenter.getMovie(TOP_RATED);
                 break;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    private void showSortMovieMenu() {
-        final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this)
-                .setTitle("Sort Movie")
-                .setItems(R.array.sort_movie, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        selectedSort = which;
-                        if (which == POPULAR) {
-                            presenter.getMovie(POPULAR);
-                        } else {
-                            presenter.getMovie(TOP_RATED);
-                        }
-                    }
-                });
-        dialogBuilder.create();
-        dialogBuilder.show();
     }
 }

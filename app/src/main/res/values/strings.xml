@@ -5,4 +5,5 @@
     <string name="img_desc_poster">Image description</string>
     <string name="menu_sort_movie">Sort movie</string>
     <string name="img_desc_poster_movie">Image poster movie</string>
+    <string name="sort_by_popularity">Sort by Popularity</string>
 </resources>

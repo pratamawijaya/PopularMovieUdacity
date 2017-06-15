@@ -2,6 +2,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/menu_sort"
-        android:title="@string/menu_sort_movie"></item>
+        android:id="@+id/menu_sort_popular"
+        android:title="@string/sort_by_popularity" />
+
+    <item
+        android:id="@+id/menu_sort_toprated"
+        android:title="Sort by Top Rated" />
 </menu>
