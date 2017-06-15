@@ -6,6 +6,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -30,16 +31,26 @@ import org.parceler.Parcels;
 
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class MainActivity extends AppCompatActivity implements MainView, SwipeRefreshLayout.OnRefreshListener {
 
     private static final String TAG = MainActivity.class.getSimpleName();
     public static final int POPULAR = 0;
     public static final int TOP_RATED = 1;
 
-    private SwipeRefreshLayout refreshLayout;
-    private RecyclerView recyclerView;
-    private TextView errorText;
-    private ProgressBar loading;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+    @BindView(R.id.content)
+    SwipeRefreshLayout refreshLayout;
+    @BindView(R.id.rv_list_movies)
+    RecyclerView recyclerView;
+    @BindView(R.id.tv_error)
+    TextView errorText;
+    @BindView(R.id.loading)
+    ProgressBar loading;
+
 
     private MovieRepository movieRepository;
     private TheMovieDbServices movieDbServices;
@@ -51,8 +62,11 @@ public class MainActivity extends AppCompatActivity implements MainView, SwipeRe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
 
-        initView();
+        setSupportActionBar(toolbar);
+
+        initRecyclerView();
 
         // init retrofit
         movieDbServices = TheMovieDbServices.Creator.instance();
@@ -67,12 +81,7 @@ public class MainActivity extends AppCompatActivity implements MainView, SwipeRe
 
     }
 
-    private void initView() {
-        loading = (ProgressBar) findViewById(R.id.loading);
-        errorText = (TextView) findViewById(R.id.tv_error);
-        refreshLayout = (SwipeRefreshLayout) findViewById(R.id.content);
-        recyclerView = (RecyclerView) findViewById(R.id.rv_list_movies);
-
+    private void initRecyclerView() {
         final int columnCount = getResources().getInteger(R.integer.grid_count);
         recyclerView.setLayoutManager(new GridLayoutManager(this, columnCount));
         refreshLayout.setOnRefreshListener(this);

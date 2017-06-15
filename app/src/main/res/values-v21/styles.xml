@@ -1,0 +1,9 @@
+<resources>
+
+    <style name="Theme.PopularMovie" parent="Base.Theme.PopularMovie">
+        <item name="android:statusBarColor">@color/colorPrimaryDark</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+    </style>
+
+
+</resources>
