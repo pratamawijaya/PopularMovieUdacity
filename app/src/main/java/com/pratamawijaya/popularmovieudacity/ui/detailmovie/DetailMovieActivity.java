@@ -177,7 +177,7 @@ public class DetailMovieActivity extends AppCompatActivity implements DetailView
 
     @Override
     public void displayReview(List<Review> reviews) {
-        reviews.addAll(reviews);
+        movieReview.addAll(reviews);
         reviewAdapter.notifyDataSetChanged();
         for (Review review : reviews) {
             Log.d("tag", "review data " + review.getAuthor());
