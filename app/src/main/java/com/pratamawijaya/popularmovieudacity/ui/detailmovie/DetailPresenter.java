@@ -2,6 +2,7 @@ package com.pratamawijaya.popularmovieudacity.ui.detailmovie;
 
 import android.util.Pair;
 
+import com.pratamawijaya.popularmovieudacity.data.model.Movie;
 import com.pratamawijaya.popularmovieudacity.data.repository.MovieRepository;
 
 import io.reactivex.Observable;
@@ -34,5 +35,9 @@ public class DetailPresenter {
                 }, throwable -> {
                     view.displayError(throwable.getLocalizedMessage());
                 }));
+    }
+
+    public void favoriteMovie(Movie movie) {
+        // TODO: 7/25/17 save favorite movie to db
     }
 }

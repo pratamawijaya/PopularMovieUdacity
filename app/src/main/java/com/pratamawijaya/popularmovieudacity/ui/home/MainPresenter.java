@@ -60,4 +60,8 @@ public class MainPresenter {
     public void attachView() {
         compositeDisposable = new CompositeDisposable();
     }
+
+    public void getFavoriteMovie() {
+        // TODO: 7/25/17 read db for favorite movie
+    }
 }

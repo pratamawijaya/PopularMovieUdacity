@@ -191,6 +191,9 @@ public class MainActivity extends AppCompatActivity implements MainView, SwipeRe
                 selectedSort = TOP_RATED;
                 presenter.getMovie(TOP_RATED, page);
                 break;
+            case R.id.menu_favorited:
+                presenter.getFavoriteMovie();
+                break;
         }
         return super.onOptionsItemSelected(item);
     }

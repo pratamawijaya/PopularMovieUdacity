@@ -35,6 +35,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class DetailMovieActivity extends AppCompatActivity implements DetailView {
 
@@ -187,5 +188,9 @@ public class DetailMovieActivity extends AppCompatActivity implements DetailView
     @Override
     public void displayError(String localizedMessage) {
 
+    }
+
+    @OnClick(R.id.btn_favorite)void onFavoriteClick(){
+        presenter.favoriteMovie(movie);
     }
 }
