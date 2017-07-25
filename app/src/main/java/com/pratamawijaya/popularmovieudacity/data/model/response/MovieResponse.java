@@ -1,4 +1,6 @@
-package com.pratamawijaya.popularmovieudacity.data.model;
+package com.pratamawijaya.popularmovieudacity.data.model.response;
+
+import com.pratamawijaya.popularmovieudacity.data.model.Movie;
 
 import java.util.List;
 

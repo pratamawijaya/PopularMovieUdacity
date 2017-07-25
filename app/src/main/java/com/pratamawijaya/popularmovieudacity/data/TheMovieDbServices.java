@@ -1,7 +1,9 @@
 package com.pratamawijaya.popularmovieudacity.data;
 
 import com.pratamawijaya.popularmovieudacity.BuildConfig;
-import com.pratamawijaya.popularmovieudacity.data.model.MovieResponse;
+import com.pratamawijaya.popularmovieudacity.data.model.response.MovieResponse;
+import com.pratamawijaya.popularmovieudacity.data.model.response.MovieReviewResponse;
+import com.pratamawijaya.popularmovieudacity.data.model.response.MovieTrailersResponse;
 
 import io.reactivex.Observable;
 import okhttp3.OkHttpClient;
@@ -10,6 +12,8 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;
+import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 /**
  * Created by pratama
@@ -24,6 +28,12 @@ public interface TheMovieDbServices {
 
     @GET("movie/top_rated")
     Observable<MovieResponse> getTopRatedMovie();
+
+    @GET("movie/{id}/videos")
+    Observable<MovieTrailersResponse> getMovieTrailers(@Path("id") int movieId);
+
+    @GET("movie/{id}/reviews")
+    Observable<MovieReviewResponse> getMovieReview(@Path("id") int movieId, @Query("page") int page);
 
     class Creator {
 
