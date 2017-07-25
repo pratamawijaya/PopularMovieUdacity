@@ -65,6 +65,15 @@
             app:posterURL="@{movie.poster_path}"
             tools:src="@mipmap/ic_launcher" />
 
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/btn_favorite"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginRight="16dp"
+            android:src="@drawable/ic_favorite_white_36dp"
+            app:layout_anchor="@id/appBarLayout"
+            app:layout_anchorGravity="bottom|right|end" />
+
         <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -114,6 +123,7 @@
                     android:textColor="#000"
                     tools:text="Rating" />
 
+
                 <View
                     android:id="@+id/line"
                     android:layout_width="match_parent"
@@ -125,14 +135,72 @@
                     android:background="#000" />
 
                 <TextView
+                    android:id="@+id/tv_overview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/line"
                     android:layout_margin="16dp"
-                    android:fontFamily="sans-serif-light"
+                    android:fontFamily="sans-serif"
                     android:text="@{movie.overview}"
                     android:textColor="#000"
+                    android:textSize="16sp"
                     tools:text="Overview" />
+
+                <!-- Trailers-->
+                <View
+                    android:id="@+id/line2"
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_below="@id/tv_overview"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginTop="16dp"
+                    android:background="#000" />
+
+                <TextView
+                    android:id="@+id/tv_trailers"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/line2"
+                    android:layout_margin="16dp"
+                    android:text="Trailers"
+                    android:textColor="#000"
+                    android:textSize="16dp" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rvTrailers"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tv_trailers"
+                    android:layout_margin="16dp" />
+
+                <!-- Review -->
+                <View
+                    android:id="@+id/line3"
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_below="@id/rvTrailers"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginTop="16dp"
+                    android:background="#000" />
+
+                <TextView
+                    android:id="@+id/tv_review"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/line3"
+                    android:layout_margin="16dp"
+                    android:text="Review"
+                    android:textColor="#000"
+                    android:textSize="16dp" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rvReview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tv_review"
+                    android:layout_margin="16dp" />
             </RelativeLayout>
 
         </android.support.v4.widget.NestedScrollView>

@@ -23,6 +23,15 @@ public class PicassoBindingAdapter {
                 .into(view);
     }
 
+    @BindingAdapter({"bind:loadImage"})
+    public static void loadVideoImg(ImageView view, String url) {
+        Picasso.with(view.getContext())
+                .load(url)
+                .placeholder(R.drawable.ic_error_outline_grey_900_48dp)
+                .error(R.drawable.ic_error_outline_grey_900_48dp)
+                .into(view);
+    }
+
     @BindingAdapter({"bind:backdropURL"})
     public static void loadBackdrop(ImageView view, String imageUrl) {
         final String finalUrl = "http://image.tmdb.org/t/p/w780" + imageUrl;

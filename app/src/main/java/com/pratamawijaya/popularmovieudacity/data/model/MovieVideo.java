@@ -29,6 +29,10 @@ public class MovieVideo {
     @SerializedName("key")
     private String key;
 
+    public String getImageVideoUrl() {
+        return "https://i1.ytimg.com/vi/" + key + "/0.jpg";
+    }
+
     public void setSite(String site) {
         this.site = site;
     }

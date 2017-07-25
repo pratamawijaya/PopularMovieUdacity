@@ -125,6 +125,7 @@
                     android:background="#000" />
 
                 <TextView
+                    android:id="@+id/tv_overview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/line"
@@ -133,6 +134,33 @@
                     android:text="@{movie.overview}"
                     android:textColor="#000"
                     tools:text="Overview" />
+
+                <View
+                    android:id="@+id/line2"
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_below="@id/tv_overview"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginTop="16dp"
+                    android:background="#000" />
+
+                <TextView
+                    android:id="@+id/tv_trailers"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/line2"
+                    android:layout_margin="16dp"
+                    android:text="Trailers"
+                    android:textColor="#000"
+                    android:textSize="16dp" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rvTrailers"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tv_trailers"
+                    android:layout_margin="16dp" />
             </RelativeLayout>
 
         </android.support.v4.widget.NestedScrollView>
