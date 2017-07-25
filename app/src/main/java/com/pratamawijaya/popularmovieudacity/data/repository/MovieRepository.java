@@ -15,9 +15,9 @@ import io.reactivex.Observable;
  */
 
 public interface MovieRepository {
-    Observable<List<Movie>> getPopularMovie();
+    Observable<List<Movie>> getPopularMovie(int page);
 
-    Observable<List<Movie>> getTopRatedMovie();
+    Observable<List<Movie>> getTopRatedMovie(int page);
 
     Observable<List<MovieVideo>> getVideoTrailers(int movieId);
 

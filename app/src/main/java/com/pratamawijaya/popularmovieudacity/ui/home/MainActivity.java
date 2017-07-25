@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -26,9 +27,11 @@ import com.pratamawijaya.popularmovieudacity.data.repository.MovieRepository;
 import com.pratamawijaya.popularmovieudacity.data.repository.MovieRepositoryImpl;
 import com.pratamawijaya.popularmovieudacity.databinding.ItemMovieBinding;
 import com.pratamawijaya.popularmovieudacity.ui.detailmovie.DetailMovieActivity;
+import com.pratamawijaya.popularmovieudacity.ui.utils.EndlessScrollListener;
 
 import org.parceler.Parcels;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -51,12 +54,16 @@ public class MainActivity extends AppCompatActivity implements MainView, SwipeRe
     @BindView(R.id.loading)
     ProgressBar loading;
 
+    private EndlessScrollListener endlessScrollListener;
 
     private MovieRepository movieRepository;
     private TheMovieDbServices movieDbServices;
 
     private MainPresenter presenter;
     private int selectedSort = 0;
+    private int page = 1;
+    private LastAdapter lastAdapter;
+    private List<Movie> movies = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,14 +84,43 @@ public class MainActivity extends AppCompatActivity implements MainView, SwipeRe
         presenter = new MainPresenter(movieRepository, this);
 
         // get movie data
-        presenter.getMovie(POPULAR);
+        presenter.getMovie(POPULAR, page);
 
     }
 
     private void initRecyclerView() {
         final int columnCount = getResources().getInteger(R.integer.grid_count);
-        recyclerView.setLayoutManager(new GridLayoutManager(this, columnCount));
+        final LinearLayoutManager layoutManager = new GridLayoutManager(this, columnCount);
+        recyclerView.setLayoutManager(layoutManager);
         refreshLayout.setOnRefreshListener(this);
+
+        endlessScrollListener = new EndlessScrollListener(layoutManager) {
+            @Override
+            public void onLoadMore(int currentPage) {
+                Log.d(TAG, "onLoadMore: " + currentPage);
+                presenter.getMovie(selectedSort, currentPage);
+            }
+        };
+
+        recyclerView.addOnScrollListener(endlessScrollListener);
+
+        lastAdapter = new LastAdapter(movies, BR.movie)
+                .map(Movie.class, new ItemType<ItemMovieBinding>(R.layout.item_movie) {
+                    @Override
+                    public void onCreate(final Holder<ItemMovieBinding> holder) {
+                        super.onCreate(holder);
+                        holder.itemView.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Log.d(TAG, "onClick: " + holder.getBinding().getMovie().getTitle());
+                                Bundle data = new Bundle();
+                                data.putParcelable("movie", Parcels.wrap(holder.getBinding().getMovie()));
+                                startActivity(new Intent(MainActivity.this, DetailMovieActivity.class).putExtras(data));
+                            }
+                        });
+                    }
+                })
+                .into(recyclerView);
     }
 
     @Override
@@ -102,23 +138,8 @@ public class MainActivity extends AppCompatActivity implements MainView, SwipeRe
 
     @Override
     public void displayMovies(List<Movie> results) {
-        new LastAdapter(results, BR.movie)
-                .map(Movie.class, new ItemType<ItemMovieBinding>(R.layout.item_movie) {
-                    @Override
-                    public void onCreate(final Holder<ItemMovieBinding> holder) {
-                        super.onCreate(holder);
-                        holder.itemView.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                Log.d(TAG, "onClick: " + holder.getBinding().getMovie().getTitle());
-                                Bundle data = new Bundle();
-                                data.putParcelable("movie", Parcels.wrap(holder.getBinding().getMovie()));
-                                startActivity(new Intent(MainActivity.this, DetailMovieActivity.class).putExtras(data));
-                            }
-                        });
-                    }
-                })
-                .into(recyclerView);
+        movies.addAll(results);
+        lastAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -148,7 +169,8 @@ public class MainActivity extends AppCompatActivity implements MainView, SwipeRe
     @Override
     public void onRefresh() {
         refreshLayout.setRefreshing(false);
-        presenter.getMovie(selectedSort);
+        page = 1;
+        presenter.getMovie(selectedSort, 1);
     }
 
     @Override
@@ -159,14 +181,15 @@ public class MainActivity extends AppCompatActivity implements MainView, SwipeRe
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        page = 1;
         switch (item.getItemId()) {
             case R.id.menu_sort_popular:
                 selectedSort = POPULAR;
-                presenter.getMovie(POPULAR);
+                presenter.getMovie(POPULAR, page);
                 break;
             case R.id.menu_sort_toprated:
                 selectedSort = TOP_RATED;
-                presenter.getMovie(TOP_RATED);
+                presenter.getMovie(TOP_RATED, page);
                 break;
         }
         return super.onOptionsItemSelected(item);

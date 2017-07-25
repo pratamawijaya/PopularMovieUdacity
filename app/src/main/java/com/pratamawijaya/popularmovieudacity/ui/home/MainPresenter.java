@@ -27,16 +27,16 @@ public class MainPresenter {
     }
 
 
-    public void getMovie(int sort) {
+    public void getMovie(int sort, int page) {
         view.showLoading(true);
 
         Observable<List<Movie>> observableMovies;
 
 
         if (sort == MainActivity.POPULAR) {
-            observableMovies = movieRepository.getPopularMovie();
+            observableMovies = movieRepository.getPopularMovie(page);
         } else {
-            observableMovies = movieRepository.getTopRatedMovie();
+            observableMovies = movieRepository.getTopRatedMovie(page);
         }
 
         compositeDisposable.add(observableMovies.

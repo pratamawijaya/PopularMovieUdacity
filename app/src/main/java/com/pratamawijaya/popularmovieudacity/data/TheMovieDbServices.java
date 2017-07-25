@@ -24,10 +24,10 @@ import retrofit2.http.Query;
 public interface TheMovieDbServices {
 
     @GET("movie/popular")
-    Observable<MovieResponse> getPopularMovie();
+    Observable<MovieResponse> getPopularMovie(@Query("page") int page);
 
     @GET("movie/top_rated")
-    Observable<MovieResponse> getTopRatedMovie();
+    Observable<MovieResponse> getTopRatedMovie(@Query("page") int page);
 
     @GET("movie/{id}/videos")
     Observable<MovieTrailersResponse> getMovieTrailers(@Path("id") int movieId);

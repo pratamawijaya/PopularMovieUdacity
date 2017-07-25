@@ -24,13 +24,13 @@ public class MovieRepositoryImpl implements MovieRepository {
     }
 
     @Override
-    public Observable<List<Movie>> getPopularMovie() {
-        return services.getPopularMovie().flatMap(movieResponse -> Observable.just(movieResponse.results));
+    public Observable<List<Movie>> getPopularMovie(int page) {
+        return services.getPopularMovie(page).flatMap(movieResponse -> Observable.just(movieResponse.results));
     }
 
     @Override
-    public Observable<List<Movie>> getTopRatedMovie() {
-        return services.getTopRatedMovie().flatMap(movieResponse -> Observable.just(movieResponse.results));
+    public Observable<List<Movie>> getTopRatedMovie(int page) {
+        return services.getTopRatedMovie(page).flatMap(movieResponse -> Observable.just(movieResponse.results));
     }
 
     @Override
