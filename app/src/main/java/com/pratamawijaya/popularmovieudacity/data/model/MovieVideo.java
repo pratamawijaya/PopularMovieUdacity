@@ -1,9 +1,12 @@
 package com.pratamawijaya.popularmovieudacity.data.model;
 
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
-public class MovieVideo {
+public class MovieVideo implements Parcelable {
 
     @SerializedName("site")
     private String site;
@@ -111,4 +114,47 @@ public class MovieVideo {
                         ",key = '" + key + '\'' +
                         "}";
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.site);
+        dest.writeInt(this.size);
+        dest.writeString(this.iso31661);
+        dest.writeString(this.name);
+        dest.writeString(this.id);
+        dest.writeString(this.type);
+        dest.writeString(this.iso6391);
+        dest.writeString(this.key);
+    }
+
+    public MovieVideo() {
+    }
+
+    protected MovieVideo(Parcel in) {
+        this.site = in.readString();
+        this.size = in.readInt();
+        this.iso31661 = in.readString();
+        this.name = in.readString();
+        this.id = in.readString();
+        this.type = in.readString();
+        this.iso6391 = in.readString();
+        this.key = in.readString();
+    }
+
+    public static final Parcelable.Creator<MovieVideo> CREATOR = new Parcelable.Creator<MovieVideo>() {
+        @Override
+        public MovieVideo createFromParcel(Parcel source) {
+            return new MovieVideo(source);
+        }
+
+        @Override
+        public MovieVideo[] newArray(int size) {
+            return new MovieVideo[size];
+        }
+    };
 }

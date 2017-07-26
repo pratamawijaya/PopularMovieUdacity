@@ -41,6 +41,10 @@ import butterknife.OnClick;
 public class DetailMovieActivity extends AppCompatActivity implements DetailView {
 
     private static final String TAG = DetailMovieActivity.class.getSimpleName();
+    private static final String STATE_MOVIE_VIDEOS = "STATE_MOVIES_TRAILERS";
+    private static final String STATE_MOVIE_REVIEW = "STATE_REVIEW";
+    private static final String STATE_MOVIE = "STATE_MOVIE";
+
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.collapsingToolbar)
@@ -70,14 +74,21 @@ public class DetailMovieActivity extends AppCompatActivity implements DetailView
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        movie = Parcels.unwrap(getIntent().getParcelableExtra("movie"));
-
         // init retrofit
         movieDbServices = TheMovieDbServices.Creator.instance();
         // init repository
         movieRepository = new MovieRepositoryImpl(movieDbServices, DetailMovieActivity.this.getContentResolver());
-
         presenter = new DetailPresenter(movieRepository, this);
+
+        movie = Parcels.unwrap(getIntent().getParcelableExtra("movie"));
+
+        if (savedInstanceState != null) {
+            Log.d(TAG, "onCreate: get saved instance state");
+            movieVideos = savedInstanceState.getParcelableArrayList(STATE_MOVIE_VIDEOS);
+            movieReview = savedInstanceState.getParcelableArrayList(STATE_MOVIE_REVIEW);
+            movie = Parcels.unwrap(savedInstanceState.getParcelable(STATE_MOVIE));
+        }
+
 
         if (movie != null) {
 
@@ -163,6 +174,20 @@ public class DetailMovieActivity extends AppCompatActivity implements DetailView
 
     private void openVideoTrailers(String key) {
         startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.youtube.com/watch?v=" + key)));
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (movieVideos != null) {
+            outState.putParcelableArrayList(STATE_MOVIE_VIDEOS, new ArrayList<>(movieVideos));
+        }
+        if (movieReview != null) {
+            outState.putParcelableArrayList(STATE_MOVIE_REVIEW, new ArrayList<>(movieReview));
+        }
+        if (movie != null) {
+            outState.putParcelable(STATE_MOVIE, Parcels.wrap(movie));
+        }
     }
 
     @Override
