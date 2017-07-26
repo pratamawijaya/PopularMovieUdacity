@@ -71,7 +71,7 @@ public class DetailMovieActivity extends AppCompatActivity implements DetailView
         // init retrofit
         movieDbServices = TheMovieDbServices.Creator.instance();
         // init repository
-        movieRepository = new MovieRepositoryImpl(movieDbServices);
+        movieRepository = new MovieRepositoryImpl(movieDbServices, DetailMovieActivity.this.getContentResolver());
 
         presenter = new DetailPresenter(movieRepository, this);
 
@@ -190,7 +190,18 @@ public class DetailMovieActivity extends AppCompatActivity implements DetailView
 
     }
 
-    @OnClick(R.id.btn_favorite)void onFavoriteClick(){
+    @Override
+    public void favoriteSuccess() {
+        Log.d(TAG, "favoriteSuccess: ");
+    }
+
+    @Override
+    public void showError(String localizedMessage) {
+
+    }
+
+    @OnClick(R.id.btn_favorite)
+    void onFavoriteClick() {
         presenter.favoriteMovie(movie);
     }
 }

@@ -38,6 +38,10 @@ public class DetailPresenter {
     }
 
     public void favoriteMovie(Movie movie) {
-        // TODO: 7/25/17 save favorite movie to db
+        compositeDisposable.add(movieRepository.saveMovie(movie)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(() -> view.favoriteSuccess(),
+                        throwable -> view.showError(throwable.getLocalizedMessage())));
     }
 }

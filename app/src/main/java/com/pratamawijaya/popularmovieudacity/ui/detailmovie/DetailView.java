@@ -15,4 +15,8 @@ public interface DetailView {
     void displayReview(List<Review> second);
 
     void displayError(String localizedMessage);
+
+    void favoriteSuccess();
+
+    void showError(String localizedMessage);
 }

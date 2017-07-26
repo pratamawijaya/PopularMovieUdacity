@@ -6,6 +6,7 @@ import com.pratamawijaya.popularmovieudacity.data.model.Review;
 
 import java.util.List;
 
+import io.reactivex.Completable;
 import io.reactivex.Observable;
 
 /**
@@ -22,4 +23,10 @@ public interface MovieRepository {
     Observable<List<MovieVideo>> getVideoTrailers(int movieId);
 
     Observable<List<Review>> getMovieReviews(int movieId, int page);
+
+    Completable saveMovie(Movie movie);
+
+    Completable deleteMovie(Movie movie);
+
+    Observable<List<Movie>> getFavoriteMovie();
 }

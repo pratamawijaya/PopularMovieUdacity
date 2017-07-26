@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity implements MainView, SwipeRe
         // init retrofit
         movieDbServices = TheMovieDbServices.Creator.instance();
         // init repository
-        movieRepository = new MovieRepositoryImpl(movieDbServices);
+        movieRepository = new MovieRepositoryImpl(movieDbServices, MainActivity.this.getContentResolver());
 
         // init presenter
         presenter = new MainPresenter(movieRepository, this);
@@ -109,14 +109,11 @@ public class MainActivity extends AppCompatActivity implements MainView, SwipeRe
                     @Override
                     public void onCreate(final Holder<ItemMovieBinding> holder) {
                         super.onCreate(holder);
-                        holder.itemView.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                Log.d(TAG, "onClick: " + holder.getBinding().getMovie().getTitle());
-                                Bundle data = new Bundle();
-                                data.putParcelable("movie", Parcels.wrap(holder.getBinding().getMovie()));
-                                startActivity(new Intent(MainActivity.this, DetailMovieActivity.class).putExtras(data));
-                            }
+                        holder.itemView.setOnClickListener(v -> {
+                            Log.d(TAG, "onClick: " + holder.getBinding().getMovie().getTitle());
+                            Bundle data = new Bundle();
+                            data.putParcelable("movie", Parcels.wrap(holder.getBinding().getMovie()));
+                            startActivity(new Intent(MainActivity.this, DetailMovieActivity.class).putExtras(data));
                         });
                     }
                 })
@@ -182,6 +179,8 @@ public class MainActivity extends AppCompatActivity implements MainView, SwipeRe
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         page = 1;
+        movies.clear();
+
         switch (item.getItemId()) {
             case R.id.menu_sort_popular:
                 selectedSort = POPULAR;

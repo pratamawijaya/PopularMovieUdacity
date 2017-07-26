@@ -21,6 +21,12 @@
         <activity
             android:name=".ui.detailmovie.DetailMovieActivity"
             android:theme="@style/Theme.PopularMovieTranslucent" />
+
+        <provider
+            android:name=".data.provider.MovieProvider"
+            android:authorities="tama.popularmoviesudacity"
+            android:exported="false"
+            android:label="@string/app_name" />
     </application>
 
 </manifest>

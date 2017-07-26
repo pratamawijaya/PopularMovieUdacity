@@ -62,6 +62,10 @@ public class MainPresenter {
     }
 
     public void getFavoriteMovie() {
-        // TODO: 7/25/17 read db for favorite movie
+        compositeDisposable.add(movieRepository.getFavoriteMovie()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(movies -> view.displayMovies(movies),
+                        throwable -> view.showError(throwable.getLocalizedMessage())));
     }
 }
