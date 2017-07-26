@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -50,6 +51,8 @@ public class DetailMovieActivity extends AppCompatActivity implements DetailView
     RecyclerView rvTrailers;
     @BindView(R.id.rvReview)
     RecyclerView rvReview;
+    @BindView(R.id.btn_favorite)
+    FloatingActionButton fabFavorite;
 
     private Movie movie;
     private DetailPresenter presenter;
@@ -60,6 +63,7 @@ public class DetailMovieActivity extends AppCompatActivity implements DetailView
     private List<Review> movieReview = new ArrayList<>();
     private LastAdapter trailersAdapter;
     private LastAdapter reviewAdapter;
+    private boolean isFavorited = false;
 
 
     @Override
@@ -108,6 +112,7 @@ public class DetailMovieActivity extends AppCompatActivity implements DetailView
 
             // request movie review n video
             presenter.getVideoAndReview(movie.getId());
+            presenter.isMovieFavorited(movie);
 
             initRvTrailers();
             initRvReview();
@@ -193,6 +198,8 @@ public class DetailMovieActivity extends AppCompatActivity implements DetailView
     @Override
     public void favoriteSuccess() {
         Log.d(TAG, "favoriteSuccess: ");
+        isFavorited = true;
+        fabFavorite.setImageResource(R.drawable.ic_favorite_white_36dp);
     }
 
     @Override
@@ -200,8 +207,20 @@ public class DetailMovieActivity extends AppCompatActivity implements DetailView
 
     }
 
+    @Override
+    public void movieIsFavorited() {
+        isFavorited = true;
+        fabFavorite.setImageResource(R.drawable.ic_favorite_white_36dp);
+    }
+
     @OnClick(R.id.btn_favorite)
     void onFavoriteClick() {
-        presenter.favoriteMovie(movie);
+        if (isFavorited) {
+            presenter.deleteFavorite(movie);
+            fabFavorite.setImageResource(R.drawable.ic_favorite_border_white_36dp);
+        } else {
+            presenter.favoriteMovie(movie);
+        }
+
     }
 }

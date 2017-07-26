@@ -1,5 +1,6 @@
 package com.pratamawijaya.popularmovieudacity.ui.detailmovie;
 
+import android.util.Log;
 import android.util.Pair;
 
 import com.pratamawijaya.popularmovieudacity.data.model.Movie;
@@ -15,6 +16,7 @@ import io.reactivex.schedulers.Schedulers;
  */
 
 public class DetailPresenter {
+    private static final String TAG = DetailPresenter.class.getSimpleName();
     private MovieRepository movieRepository;
     private DetailView view;
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
@@ -43,5 +45,25 @@ public class DetailPresenter {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(() -> view.favoriteSuccess(),
                         throwable -> view.showError(throwable.getLocalizedMessage())));
+    }
+
+    public void isMovieFavorited(Movie movie) {
+        compositeDisposable.add(movieRepository.getMovie(movie)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(result -> view.movieIsFavorited(), error -> {
+                    Log.e(TAG, "isMovieFavorited: " + error.getLocalizedMessage());
+                }));
+    }
+
+    public void deleteFavorite(Movie movie) {
+        compositeDisposable.add(movieRepository.deleteMovie(movie)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(() -> {
+                    Log.d(TAG, "deleteFavorite: success");
+                }, throwable -> {
+                    Log.e(TAG, "deleteFavorite: error");
+                }));
     }
 }

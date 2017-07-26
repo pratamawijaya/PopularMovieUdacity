@@ -8,6 +8,7 @@ import java.util.List;
 
 import io.reactivex.Completable;
 import io.reactivex.Observable;
+import io.reactivex.Single;
 
 /**
  * Created by pratama
@@ -28,5 +29,7 @@ public interface MovieRepository {
 
     Completable deleteMovie(Movie movie);
 
-    Observable<List<Movie>> getFavoriteMovie();
+    Single<Movie> getMovie(Movie movie);
+
+    Observable<List<Movie>> getFavoriteMovies();
 }

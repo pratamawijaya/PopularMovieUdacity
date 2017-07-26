@@ -19,4 +19,6 @@ public interface DetailView {
     void favoriteSuccess();
 
     void showError(String localizedMessage);
+
+    void movieIsFavorited();
 }

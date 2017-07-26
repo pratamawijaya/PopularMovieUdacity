@@ -16,6 +16,7 @@ import java.util.List;
 
 import io.reactivex.Completable;
 import io.reactivex.Observable;
+import io.reactivex.Single;
 
 import static com.pratamawijaya.popularmovieudacity.data.provider.MovieDbContract.Movie.COLUMN_MOVIE_BACKDROP_PATH;
 import static com.pratamawijaya.popularmovieudacity.data.provider.MovieDbContract.Movie.COLUMN_MOVIE_FAVORED;
@@ -99,7 +100,25 @@ public class MovieRepositoryImpl implements MovieRepository {
     }
 
     @Override
-    public Observable<List<Movie>> getFavoriteMovie() {
+    public Single<Movie> getMovie(Movie movie) {
+        return Single.create(e -> {
+            final String where = String.format("%s=?", COLUMN_MOVIE_ID);
+            final String[] args = new String[]{String.valueOf(movie.getId())};
+            final Cursor cursor = contentResolver.query(CONTENT_URI, movieProjection, where, args, null);
+            Log.d(TAG, "getMovie: " + movie.getTitle());
+            Log.d(TAG, "getMovie: cursor count " + cursor.getCount());
+            if (cursor.getCount() >= 1) {
+                cursor.moveToFirst();
+                final Movie resultMovie = Movie.fromCursor(cursor);
+                e.onSuccess(resultMovie);
+            } else {
+                e.onError(new Throwable("No movies"));
+            }
+        });
+    }
+
+    @Override
+    public Observable<List<Movie>> getFavoriteMovies() {
         return Observable.create(e -> {
             List<Movie> movies = new ArrayList<>();
             final Cursor query = contentResolver.query(CONTENT_URI, movieProjection, null, null, null);
@@ -108,7 +127,7 @@ public class MovieRepositoryImpl implements MovieRepository {
                     movies.add(Movie.fromCursor(query));
                 } while (query.moveToNext());
             }
-            Log.d(TAG, "getFavoriteMovie: " + movies.size());
+            Log.d(TAG, "getFavoriteMovies: " + movies.size());
             e.onNext(movies);
         });
     }

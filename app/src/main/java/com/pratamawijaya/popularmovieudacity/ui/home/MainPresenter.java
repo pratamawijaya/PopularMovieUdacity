@@ -62,7 +62,7 @@ public class MainPresenter {
     }
 
     public void getFavoriteMovie() {
-        compositeDisposable.add(movieRepository.getFavoriteMovie()
+        compositeDisposable.add(movieRepository.getFavoriteMovies()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(movies -> view.displayMovies(movies),
