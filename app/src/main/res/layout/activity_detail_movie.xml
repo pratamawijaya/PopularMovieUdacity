@@ -69,10 +69,10 @@
             android:id="@+id/btn_favorite"
             android:layout_width="48dp"
             android:layout_height="48dp"
+            android:layout_gravity="right|bottom"
+            android:layout_marginBottom="16dp"
             android:layout_marginRight="16dp"
-            android:src="@drawable/ic_favorite_white_36dp"
-            app:layout_anchor="@id/appBarLayout"
-            app:layout_anchorGravity="bottom|right|end" />
+            android:src="@drawable/ic_favorite_border_white_36dp" />
 
         <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
