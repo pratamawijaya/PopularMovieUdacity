@@ -13,6 +13,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.github.nitrico.lastadapter.Holder;
 import com.github.nitrico.lastadapter.ItemType;
@@ -57,6 +58,8 @@ public class DetailMovieActivity extends AppCompatActivity implements DetailView
     RecyclerView rvReview;
     @BindView(R.id.btn_favorite)
     FloatingActionButton fabFavorite;
+    @BindView(R.id.poster)
+    ImageView imgPoster;
 
     private Movie movie;
     private DetailPresenter presenter;

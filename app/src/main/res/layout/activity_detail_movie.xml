@@ -54,16 +54,6 @@
 
         </android.support.design.widget.AppBarLayout>
 
-        <ImageView
-            android:id="@+id/poster"
-            android:layout_width="130dp"
-            android:layout_height="180dp"
-            android:layout_marginLeft="16dp"
-            android:contentDescription="@string/img_desc_poster_movie"
-            app:layout_anchor="@id/appBarLayout"
-            app:layout_anchorGravity="bottom|left|start"
-            app:posterURL="@{movie.poster_path}"
-            tools:src="@mipmap/ic_launcher" />
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/btn_favorite"
@@ -81,7 +71,17 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/poster"
+                    android:layout_width="130dp"
+                    android:layout_height="180dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="16dp"
+                    android:contentDescription="@string/img_desc_poster_movie"
+                    app:posterURL="@{movie.poster_path}"
+                    tools:src="@mipmap/ic_launcher" />
 
                 <TextView
                     android:id="@+id/tv_title"
@@ -128,7 +128,7 @@
                     android:id="@+id/line"
                     android:layout_width="match_parent"
                     android:layout_height="0.5dp"
-                    android:layout_below="@id/tv_rating"
+                    android:layout_below="@id/poster"
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="16dp"
                     android:layout_marginTop="16dp"
