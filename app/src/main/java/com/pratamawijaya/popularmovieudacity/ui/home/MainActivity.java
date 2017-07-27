@@ -42,6 +42,9 @@ public class MainActivity extends AppCompatActivity implements MainView, SwipeRe
     private static final String TAG = MainActivity.class.getSimpleName();
     public static final int POPULAR = 0;
     public static final int TOP_RATED = 1;
+    private static final String RECYCLER_POSITION = "rv_position";
+    private static final String STATE_MOVIE_VIDEOS = "state_movies";
+    private static final String STATE_PAGE = "state_page";
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -64,6 +67,7 @@ public class MainActivity extends AppCompatActivity implements MainView, SwipeRe
     private int page = 1;
     private LastAdapter lastAdapter;
     private List<Movie> movies = new ArrayList<>();
+    private int recyclerPosition;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,8 +77,6 @@ public class MainActivity extends AppCompatActivity implements MainView, SwipeRe
 
         setSupportActionBar(toolbar);
 
-        initRecyclerView();
-
         // init retrofit
         movieDbServices = TheMovieDbServices.Creator.instance();
         // init repository
@@ -83,10 +85,37 @@ public class MainActivity extends AppCompatActivity implements MainView, SwipeRe
         // init presenter
         presenter = new MainPresenter(movieRepository, this);
 
-        // get movie data
-        presenter.getMovie(POPULAR, page);
+        initRecyclerView();
+
+        if (savedInstanceState == null) {
+            // get movie data
+            presenter.getMovie(POPULAR, page);
+        } else {
+            // set page
+            page = savedInstanceState.getInt(STATE_PAGE);
+            recyclerPosition = savedInstanceState.getInt(RECYCLER_POSITION, 0);
+
+            final List<Movie> movies = Parcels.unwrap(savedInstanceState.getParcelable(STATE_MOVIE_VIDEOS));
+            this.movies.clear();
+            this.movies.addAll(movies);
+
+            lastAdapter.notifyDataSetChanged();
+        }
 
     }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (recyclerView != null)
+            outState.putInt(RECYCLER_POSITION, recyclerView.getScrollY());
+        if (movies != null) {
+            outState.putParcelable(STATE_MOVIE_VIDEOS, Parcels.wrap(movies));
+        }
+
+        outState.putInt(STATE_PAGE, page);
+    }
+
 
     private void initRecyclerView() {
         final int columnCount = getResources().getInteger(R.integer.grid_count);
@@ -103,6 +132,8 @@ public class MainActivity extends AppCompatActivity implements MainView, SwipeRe
         };
 
         recyclerView.addOnScrollListener(endlessScrollListener);
+        if (recyclerPosition > 0)
+            recyclerView.setScrollY(recyclerPosition);
 
         lastAdapter = new LastAdapter(movies, BR.movie)
                 .map(Movie.class, new ItemType<ItemMovieBinding>(R.layout.item_movie) {
