@@ -63,7 +63,14 @@ dependencies {
     compile 'com.jakewharton:butterknife:8.6.0'
     compile 'com.google.dagger:dagger:' + rootProject.daggerVersion
     compile 'com.google.dagger:dagger-android-support:' + rootProject.daggerVersion
-    // if you use the support libraries
+
+    compile "android.arch.lifecycle:runtime:" + rootProject.archComponentVersion
+    compile "android.arch.lifecycle:extensions:" + rootProject.archComponentVersion
+    compile "android.arch.persistence.room:runtime:" + rootProject.archComponentVersion
+    compile "android.arch.persistence.room:rxjava2:" + rootProject.archComponentVersion
+
+    annotationProcessor "android.arch.persistence.room:compiler:" + rootProject.archComponentVersion
+    annotationProcessor "android.arch.lifecycle:compiler:" + rootProject.archComponentVersion
     annotationProcessor 'com.google.dagger:dagger-android-processor:' + rootProject.daggerVersion
     annotationProcessor 'com.google.dagger:dagger-compiler:' + rootProject.daggerVersion
 
