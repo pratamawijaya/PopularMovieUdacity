@@ -20,3 +20,18 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
+ext {
+    buildToolsVersion = "26.0.0"
+    supportVersion = "25.3.1"
+    archLifecycleVersion = "1.0.0-alpha3"
+    archRoomVersion = "1.0.0-alpha3"
+    retrofitVersion = "2.3.0"
+    okHttpVersion = "3.8.0"
+    daggerVersion = "2.11"
+    sdpVersion = "1.0.4"
+    retrofitVersion = "2.3.0"
+    okHttpVersion = "3.8.0"
+    butterknifeVersion = "8.7.0"
+    picassoVersion = "2.5.2"
+}

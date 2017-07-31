@@ -36,6 +36,9 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    configurations.all {
+        resolutionStrategy.force 'com.google.code.findbugs:jsr305:3.0.1'
+    }
 }
 
 dependencies {
@@ -43,20 +46,27 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile 'com.android.support:appcompat-v7:25.3.1'
-    compile 'com.android.support:design:25.3.1'
+    compile 'com.android.support:appcompat-v7:' + rootProject.supportVersion
+    compile 'com.android.support:design:' + rootProject.supportVersion
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.google.code.gson:gson:2.7'
     compile 'com.github.nitrico.lastadapter:lastadapter:2.2.2'
     compile 'com.squareup.okhttp3:logging-interceptor:3.8.0'
-    compile 'com.squareup.retrofit2:retrofit:2.3.0'
-    compile 'com.squareup.retrofit2:converter-gson:2.3.0'
-    compile 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
+
+    compile 'com.squareup.retrofit2:retrofit:' + rootProject.retrofitVersion
+    compile 'com.squareup.retrofit2:converter-gson:' + rootProject.retrofitVersion
+    compile 'com.squareup.retrofit2:adapter-rxjava2:' + rootProject.retrofitVersion
     compile 'org.parceler:parceler-api:1.1.8'
     compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
     compile 'io.reactivex.rxjava2:rxjava:2.1.0'
     compile 'com.jakewharton:butterknife:8.6.0'
+    compile 'com.google.dagger:dagger:' + rootProject.daggerVersion
+    compile 'com.google.dagger:dagger-android-support:' + rootProject.daggerVersion
+    // if you use the support libraries
+    annotationProcessor 'com.google.dagger:dagger-android-processor:' + rootProject.daggerVersion
+    annotationProcessor 'com.google.dagger:dagger-compiler:' + rootProject.daggerVersion
+
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.6.0'
 
     testCompile 'junit:junit:4.12'
