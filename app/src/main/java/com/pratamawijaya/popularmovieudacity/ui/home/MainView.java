@@ -1,6 +1,7 @@
 package com.pratamawijaya.popularmovieudacity.ui.home;
 
 import com.pratamawijaya.popularmovieudacity.data.model.Movie;
+import com.pratamawijaya.popularmovieudacity.ui.base.BaseView;
 
 import java.util.List;
 
@@ -10,7 +11,7 @@ import java.util.List;
  * Project Name : PopularMovieUdacity
  */
 
-public interface MainView {
+public interface MainView extends BaseView{
     void showLoading(boolean show);
 
     void displayMovies(List<Movie> results);

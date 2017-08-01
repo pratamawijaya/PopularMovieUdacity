@@ -14,6 +14,8 @@ import com.pratamawijaya.popularmovieudacity.data.provider.MovieDbContract;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.Single;
@@ -53,6 +55,7 @@ public class MovieRepositoryImpl implements MovieRepository {
             MovieDbContract.Movie.COLUMN_MOVIE_BACKDROP_PATH,
     };
 
+    @Inject
     public MovieRepositoryImpl(TheMovieDbServices services, ContentResolver contentResolver) {
         this.services = services;
         this.contentResolver = contentResolver;

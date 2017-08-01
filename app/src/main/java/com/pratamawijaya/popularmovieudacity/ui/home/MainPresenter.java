@@ -2,8 +2,11 @@ package com.pratamawijaya.popularmovieudacity.ui.home;
 
 import com.pratamawijaya.popularmovieudacity.data.model.Movie;
 import com.pratamawijaya.popularmovieudacity.data.repository.MovieRepository;
+import com.pratamawijaya.popularmovieudacity.ui.base.BasePresenter;
 
 import java.util.List;
+
+import javax.inject.Inject;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -16,19 +19,17 @@ import io.reactivex.schedulers.Schedulers;
  * Project Name : PopularMovieUdacity
  */
 
-public class MainPresenter {
+public class MainPresenter extends BasePresenter<MainView> {
     private MovieRepository movieRepository;
-    private MainView view;
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
-    public MainPresenter(MovieRepository movieRepository, MainView view) {
+    @Inject
+    public MainPresenter(MovieRepository movieRepository) {
         this.movieRepository = movieRepository;
-        this.view = view;
     }
 
-
     public void getMovie(int sort, int page) {
-        view.showLoading(true);
+        getView().showLoading(true);
 
         Observable<List<Movie>> observableMovies;
 
@@ -43,29 +44,21 @@ public class MainPresenter {
                 subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(movies -> {
-                    view.showLoading(false);
+                    getView().showLoading(false);
                     if (movies != null && movies.size() > 0) {
-                        view.displayMovies(movies);
+                        getView().displayMovies(movies);
                     }
                 }, throwable -> {
-                    view.showLoading(false);
-                    view.showError(throwable.getLocalizedMessage());
+                    getView().showLoading(false);
+                    getView().showError(throwable.getLocalizedMessage());
                 }));
-    }
-
-    public void detachView() {
-        compositeDisposable.dispose();
-    }
-
-    public void attachView() {
-        compositeDisposable = new CompositeDisposable();
     }
 
     public void getFavoriteMovie() {
         compositeDisposable.add(movieRepository.getFavoriteMovies()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(movies -> view.displayMovies(movies),
-                        throwable -> view.showError(throwable.getLocalizedMessage())));
+                .subscribe(movies -> getView().displayMovies(movies),
+                        throwable -> getView().showError(throwable.getLocalizedMessage())));
     }
 }

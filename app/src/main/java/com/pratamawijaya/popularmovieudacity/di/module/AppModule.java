@@ -1,10 +1,12 @@
 package com.pratamawijaya.popularmovieudacity.di.module;
 
 import android.app.Application;
+import android.content.ContentResolver;
 import android.content.Context;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.pratamawijaya.popularmovieudacity.BuildConfig;
 import com.pratamawijaya.popularmovieudacity.data.TheMovieDbInterceptor;
 import com.pratamawijaya.popularmovieudacity.data.TheMovieDbServices;
 import com.pratamawijaya.popularmovieudacity.di.ApplicationContext;
@@ -64,6 +66,7 @@ public class AppModule {
     @Singleton
     public Retrofit provideRetrofit(Gson gson, OkHttpClient okHttpClient) {
         final Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(BuildConfig.THEMOVIEDB_API)
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .client(okHttpClient)
@@ -75,6 +78,12 @@ public class AppModule {
     @Singleton
     public TheMovieDbServices provideServices(Retrofit retrofit) {
         return retrofit.create(TheMovieDbServices.class);
+    }
+
+    @Provides
+    @Singleton
+    public ContentResolver provideContentResolver(@ApplicationContext Context context) {
+        return context.getContentResolver();
     }
 
 }

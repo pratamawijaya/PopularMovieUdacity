@@ -3,7 +3,6 @@ package com.pratamawijaya.popularmovieudacity.ui.home;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -21,11 +20,10 @@ import com.github.nitrico.lastadapter.Holder;
 import com.github.nitrico.lastadapter.ItemType;
 import com.github.nitrico.lastadapter.LastAdapter;
 import com.pratamawijaya.popularmovieudacity.R;
-import com.pratamawijaya.popularmovieudacity.data.TheMovieDbServices;
 import com.pratamawijaya.popularmovieudacity.data.model.Movie;
-import com.pratamawijaya.popularmovieudacity.data.repository.MovieRepository;
-import com.pratamawijaya.popularmovieudacity.data.repository.MovieRepositoryImpl;
 import com.pratamawijaya.popularmovieudacity.databinding.ItemMovieBinding;
+import com.pratamawijaya.popularmovieudacity.di.component.ActivityComponent;
+import com.pratamawijaya.popularmovieudacity.ui.base.BaseInjectedActivity;
 import com.pratamawijaya.popularmovieudacity.ui.detailmovie.DetailMovieActivity;
 import com.pratamawijaya.popularmovieudacity.ui.utils.EndlessScrollListener;
 
@@ -34,10 +32,12 @@ import org.parceler.Parcels;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity implements MainView, SwipeRefreshLayout.OnRefreshListener {
+public class MainActivity extends BaseInjectedActivity implements MainView, SwipeRefreshLayout.OnRefreshListener {
 
     private static final String TAG = MainActivity.class.getSimpleName();
     public static final int POPULAR = 0;
@@ -59,10 +59,8 @@ public class MainActivity extends AppCompatActivity implements MainView, SwipeRe
 
     private EndlessScrollListener endlessScrollListener;
 
-    private MovieRepository movieRepository;
-    private TheMovieDbServices movieDbServices;
-
-    private MainPresenter presenter;
+    @Inject
+    MainPresenter presenter;
     private int selectedSort = 0;
     private int page = 1;
     private LastAdapter lastAdapter;
@@ -75,15 +73,9 @@ public class MainActivity extends AppCompatActivity implements MainView, SwipeRe
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
+        presenter.attachView(this);
+
         setSupportActionBar(toolbar);
-
-        // init retrofit
-        movieDbServices = TheMovieDbServices.Creator.instance();
-        // init repository
-        movieRepository = new MovieRepositoryImpl(movieDbServices, MainActivity.this.getContentResolver());
-
-        // init presenter
-        presenter = new MainPresenter(movieRepository, this);
 
         initRecyclerView();
 
@@ -102,6 +94,11 @@ public class MainActivity extends AppCompatActivity implements MainView, SwipeRe
             lastAdapter.notifyDataSetChanged();
         }
 
+    }
+
+    @Override
+    protected void buildActivityComponent(ActivityComponent activityComponent) {
+        activityComponent.inject(this);
     }
 
     @Override
@@ -185,7 +182,7 @@ public class MainActivity extends AppCompatActivity implements MainView, SwipeRe
     @Override
     protected void onResume() {
         super.onResume();
-        presenter.attachView();
+        presenter.attachView(this);
     }
 
     @Override
